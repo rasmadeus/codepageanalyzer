@@ -4,6 +4,6 @@ from pyparsing import *
 class Parser: 
     def init(self, inFile)
         pass
-    def parseFile(self)
+    def parse(self)
         pass
     
