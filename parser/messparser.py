@@ -21,5 +21,5 @@ class MessParser:
         symbols = ".,!~@#$%^&*()_-+=?/\\"
         any = alphanums + rus_alphas + symbols
         
-        word = Word("$MESS[\"") + Word(any) + Word("\"]") + ZeroOrMore(" ") + Word("=") + ZeroOrMore(" ") + Word("\"")
+        word = Word("$MESS[\"") + Word(any) + Word("\"]") + ZeroOrMore(" ") + Word("=") + ZeroOrMore(" ") + Word("\"") + Word(any)+Word("\"")
         return word.parseString(in_data).asList()
