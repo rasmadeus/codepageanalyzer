@@ -1,14 +1,17 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 '''
 Created on Aug 6, 2015
 '''
 
 import os
-from parser import Parser
+from parser.messparser import MessParser
 
 class Collector(object):
 
     def __init__(self, initial_dir, dest_file):
-        self._parser = Parser(dest_file)
+        self._parser = MessParser(dest_file)
         self._initial_dir = initial_dir
         
     def start(self):
