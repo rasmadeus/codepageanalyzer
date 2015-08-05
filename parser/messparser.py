@@ -18,8 +18,8 @@ class MessParser:
     
     def _parse(self, in_data):
         rus_alphas = "йцукенгшщзхъфывапролджэячсмитьбюЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ"
-        symbols = ".,!~@#$%^&*()_-+=?/\\"
+        symbols = ".,!~@#$%^&*()_-+=?/\\ "
         any = alphanums + rus_alphas + symbols
         
-        word = Word("$MESS[\"") + Word(any) + Word("\"]") + ZeroOrMore(" ") + Word("=") + ZeroOrMore(" ") + Word("\"") + Word(any)+Word("\"")
+        word = Word("$MESS[\"") + Word(any) + Word("\"]") + ZeroOrMore(" ") + Word("=") + ZeroOrMore(" ") + Word("\"") + Word(any) + Word("\"")
         return word.parseString(in_data).asList()
