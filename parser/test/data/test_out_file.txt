@@ -1,0 +1,1 @@
+$MESS["/home/rasmadeus/Documents/dev/eclipse_workspace/parsing/parser/test/data/test_file.txt]["USER_TYPE_CRM_DESCRIPTION"] = "СдЕЛКА"
