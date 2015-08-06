@@ -5,7 +5,7 @@
 Created on Aug 6, 2015
 '''
 
-from pyparsing import Word, alphas, ZeroOrMore, printables, OneOrMore, alphanums, Regex
+import re
 
 class MessParser: 
     
@@ -13,13 +13,22 @@ class MessParser:
         self._out_file = out_file
         self._res = {}
     
-    def parse(self, in_file):
-        pass
+    def parse(self, in_file):     
+        common_parts = self._find_all_common_parts(self._get_in_data(in_file))
+            
+
+    def _get_in_data(self, in_file):
+        try:
+            res = ''
+            for line in open(in_file).read().splitlines():
+                res += line
+            return res
+        except IOError as ex:
+            print('Cannot read data from {file}'.format(file=in_file))
+            return ''
     
-    def _parse(self, in_data):
-        rus_alphas = "йцукенгшщзхъфывапролджэячсмитьбюЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ"
-        symbols = ".,!~@#$%^&*()_-+=?/\\ "
-        any = alphanums + rus_alphas + symbols
+    def _find_all_common_parts(self, in_data):
+        wordInResult = '[сС][дД][еЕ][лЛ]'
+        pattern = '\\$MESS\S+ += +".*{word}.*"'.format(word=wordInResult)
+        return re.compile(pattern).findall(in_data)
         
-        word = Word("$MESS[\"") + Word(any) + Word("\"]") + ZeroOrMore(" ") + Word("=") + ZeroOrMore(" ") + Word("\"") + Word(any) + Word("\"")
-        return word.parseString(in_data).asList()

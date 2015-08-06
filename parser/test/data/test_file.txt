@@ -1,0 +1,12 @@
+"$MESS[\"USER_TYPE_CRM_DESCRIPTION\"] = \"Прив СделКаэлементам CRM\"",
+            "$MESS[\"USER_TYPE_CRM_DESCRIPTION\"] = \"фффПрив\"",
+
+ sdfasdf           "$MESSUSER_TYPE_CRM_DESCRIPTION\"] = \"Приfffв\"",
+        asdfasd    "$MESS[\"USER_TYPE_CRM_DESCRIPTION\"] = \"Прив SделКаэлементам CRM\"",
+        
+
+
+  asdf  "$MESS[\"USER_TYPE_CRM_DESCRIPTION\"] = \"ПфываСделКафываM\"",
+          asdfas  "$MESS[\"USER_TYPE_CRM_DESCRIPTION\"] = \"сделКа\"",asdfasdf
+dasfasdf
+dasfadsf

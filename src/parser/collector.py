@@ -6,8 +6,7 @@ Created on Aug 6, 2015
 '''
 
 import os
-
-from messparser import MessParser
+from parser.messparser import MessParser
 
 class Collector(object):
 
