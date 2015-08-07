@@ -1,7 +1,11 @@
 .project
+
 .pydevproject
+
 *.pyc
+
 ~*
+
 *~
 
 
@@ -11,3 +15,5 @@
 
 
 
+
+__pycaches__
