@@ -1,9 +1,8 @@
 eclipse.preferences.version=1
-encoding//parser/collector.py=utf-8
-encoding//parser/messparser.py=utf-8
-encoding//parser/test_collector.py=utf-8
-encoding//parser/test_messparser.py=utf-8
+encoding//parser/mess.py=utf-8
+encoding//parser/testParser.py=utf-8
 encoding//src/parser/collector.py=utf-8
 encoding//src/parser/messparser.py=utf-8
 encoding//src/parser/test_collector.py=utf-8
 encoding//src/parser/test_messparser.py=utf-8
+encoding/<project>=UTF-8
