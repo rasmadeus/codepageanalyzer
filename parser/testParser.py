@@ -4,7 +4,7 @@ import unittest
 import os
 from mess import *
 
-class Test(unittest.TestCase):
+class Test(unittest.TestCase):  
 
 
     def testParse(self):
@@ -15,4 +15,4 @@ class Test(unittest.TestCase):
         encoding = 'cp1251'
 
         messList = parse(thisFileDir, wordInValue, wordForReplace, encoding)
-        writeTo(os.path.join(thisFileDir, 'messOut.html'), toHtml(messList, u'Найденный список'), 'UTF-8')
+        toFile(os.path.join(thisFileDir, 'messOut.html'), buildHtml(messList, u'Найденный список'), 'UTF-8')

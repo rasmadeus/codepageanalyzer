@@ -1,0 +1,14 @@
+asdfasdf
+asdfafds	adf
+asdf asf
+asdfsadf $MESS['keykey'] = "Valueсделка"
+
+
+
+ asdfasf asd
+fas
+df
+asdf
+a
+sdf   $MESS["asfdasdf"] = 'сдулка сделкаэ'
+

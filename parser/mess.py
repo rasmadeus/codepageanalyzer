@@ -6,11 +6,10 @@ def _getStrFrom(path, code):
     except (IOError, UnicodeDecodeError)  as ex: 
         print(ex)
         return ''
-
     
 def _buildMessList(messStr, word, newWord):
     import re
-    pattern = u'\$MESS\[".+"\] *= *".*{word}.*"'.format(word=word)
+    pattern = u'\$MESS\[[\'"].+[\'"]\] *= *[\'"].*{word}.*[\'"]'.format(word=word)
     return [re.sub(word, newWord, mess) for mess in re.compile(pattern).findall(messStr)]   
 
 def parse(absPathToDir, word, newWord, code):
@@ -26,15 +25,15 @@ def parse(absPathToDir, word, newWord, code):
             res += parse(os.path.join(pathToDir, subdir), word, newWord, code)
     return res
 
-def writeTo(path, data, code):
+def toFile(path, data, code):
     import codecs
     try:
         codecs.open(path, 'w', code).write(data)     
-    except IOError:
-        print('Cannot write data to {0}'.format(path))
-
+    except IOError as ex:
+        print(ex)
         
-def toHtml(messList, header):
+def buildHtml(messList, header):
+    import re
     res = \
         u'<html>' \
             u'<meta charset="UTF-8" />' \
@@ -57,7 +56,7 @@ def toHtml(messList, header):
     for messPart in messList:
         path = messPart[0]
         for messValue in messPart[1]:
-            messValueParts = messValue.split('"')
+            messValueParts = re.split('["\']', messValue)
             key = messValueParts[1]
             value = messValueParts[3]
             table += u'<tr><td><a href="file://{path}">{path}</a></td><td>{key}</td><td>{value}</td></tr>'.format(path=path, key=key, value=value)

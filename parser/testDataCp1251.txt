@@ -1,5 +1,0 @@
-$MESS["KEY"] = "сделка"
-$MESS["KEY"] = "сдеелка"
-$MESS["KEY"] = "сƒеЋкј"
-$MESS["KEY"] = "YtсƒеЋкјasdf"
-$MESS[asdfKEY"] = "сƒеЋкј"
