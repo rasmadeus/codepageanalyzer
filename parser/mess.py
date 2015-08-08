@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
-def _readMessStr(path, code): 
-    import codecs 
+def _getStrFrom(path, code): 
     try:
-        return codecs.open(path, 'r', code).read()
-    except IOError:
-        print('Cannot read data from {0}'.format(path))
+        return open(path).read().decode(code)
+    except (IOError, UnicodeDecodeError)  as ex: 
+        print(ex)
         return ''
+
     
 def _buildMessList(messStr, word, newWord):
     import re
@@ -19,7 +19,7 @@ def parse(absPathToDir, word, newWord, code):
     for pathToDir, subdirs, files in os.walk(absPathToDir):
         for fileName in files:
             absPathToFile = os.path.join(pathToDir, fileName)
-            messList = _buildMessList(_readMessStr(absPathToFile, code), word, newWord)
+            messList = _buildMessList(_getStrFrom(absPathToFile, code), word, newWord)
             if (len(messList) != 0):
                 res.append((absPathToFile, messList))
         for subdir in subdirs:
