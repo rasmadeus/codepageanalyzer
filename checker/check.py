@@ -1,31 +1,40 @@
 # -*- coding: utf-8 -*-
 
 
-def _buildEncodingErrors(path): 
+def _decode(value):
     import chardet
-    errors = []
     try:
+        encoding = chardet.detect(value)["encoding"]        
+        return (value.decode(encoding), encoding)
+    except (TypeError, UnicodeDecodeError):
+        return (u'Failed get line', u'Failed detect encoding')
+
+def _buildEncodingErrors(path, encoding): 
+    try:
+        errors = []
         for line in open(path).readlines():
             try:
-                line.decode(chardet.detect(line))
-            except UnicodeDecodeError as ex:
-                errors.append((line, str(ex)))
+                line.decode(encoding)
+            except UnicodeDecodeError as ex:           
+                errors.append((_decode(line), str(ex)))
     except IOError  as ex: 
         print(ex)
-        return ''
+        return []
+    else:
+        return errors
     
 
-def findEncodingErrors(absPathToDir):
+def findEncodingErrors(absPathToDir, encoding):
     import os
-    res = []
+    res = {}
     for pathToDir, subdirs, files in os.walk(absPathToDir):
         for fileName in files:
             absPathToFile = os.path.join(pathToDir, fileName)
-            messList = _buildMessList(_getStrFrom(absPathToFile, code), word, newWord)
-            if (len(messList) != 0):
-                res.append((absPathToFile, messList))
+            errors = _buildEncodingErrors(absPathToFile, encoding)
+            if (len(errors) != 0):
+                res[absPathToFile] = errors
         for subdir in subdirs:
-            res += parse(os.path.join(pathToDir, subdir), word, newWord, code)
+            res.update(findEncodingErrors(os.path.join(pathToDir, subdir), encoding))
     return res
 
 def toFile(path, data, code):
@@ -35,7 +44,7 @@ def toFile(path, data, code):
     except IOError as ex:
         print(ex)
         
-def buildHtml(messList, header):
+def buildHtml(errorsList, header):
     import re
     res = \
         u'<html>' \
@@ -47,21 +56,27 @@ def buildHtml(messList, header):
             u'<body>'\
                 u'<h1>{header}</h1>'\
                 u'<table>'\
+                    u'<tr>'\
+                        u'<td width="30%"><b>Путь к файлу</b></td>'\
+                        u'<td width="30%"><b>Строка в UTF-8</b></td>'\
+                        u'<td width="10%"><b>Исходная кодировка</b></td>'\
+                        u'<td width="30%"><b>Текст исключения</b></td>'\
+                    u'</tr>'\
                     u'{table}'\
                 u'</table>'\
             u'</body>'\
         u'</html>'
         
         
-    style = u'table, th, td {border: 1px solid gray;} table {border-collapse: collapse;}'
+    style = u'table, th, td {border: 1px solid gray;} table {border-collapse: collapse;} .cell{word-break: break-all;}'
         
     table = u''
-    for messPart in messList:
-        path = messPart[0]
-        for messValue in messPart[1]:
-            messValueParts = re.split('["\']', messValue)
-            key = messValueParts[1]
-            value = messValueParts[3]
-            table += u'<tr><td><a href="file://{path}">{path}</a></td><td>{key}</td><td>{value}</td></tr>'.format(path=path, key=key, value=value)
-        
+    for filePath in errorsList:
+        for error in errorsList[filePath]:
+            line = re.sub(r'\<[^>]*\>', '', error[0][0])
+            encoding = error[0][1]
+            exception = error[1]
+            row = u'<tr><td><div class="cell"><a href="{0}">{0}</a></div></td><td><div class="cell">{1}</div></td><td><div class="cell">{2}</div></td><td><div class="cell">{3}</div></td></tr>'
+            table += row.format(filePath, line, encoding, exception)
+         
     return res.format(header=header, style=style, table=table)
