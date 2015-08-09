@@ -1,18 +1,21 @@
 # -*- coding: utf-8 -*-
 
-def _getStrFrom(path, code): 
+
+def _buildEncodingErrors(path): 
+    import chardet
+    errors = []
     try:
-        return open(path).read().decode(code)
-    except (IOError, UnicodeDecodeError)  as ex: 
+        for line in open(path).readlines():
+            try:
+                line.decode(chardet.detect(line))
+            except UnicodeDecodeError as ex:
+                errors.append((line, str(ex)))
+    except IOError  as ex: 
         print(ex)
         return ''
     
-def _buildMessList(messStr, word, newWord):
-    import re
-    pattern = u'\$MESS\[[\'"].+[\'"]\] *= *[\'"].*{word}.*[\'"]'.format(word=word)
-    return [re.sub(word, newWord, mess) for mess in re.compile(pattern).findall(messStr)]   
 
-def parse(absPathToDir, word, newWord, code):
+def findEncodingErrors(absPathToDir):
     import os
     res = []
     for pathToDir, subdirs, files in os.walk(absPathToDir):
