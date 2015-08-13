@@ -15,14 +15,12 @@ def _buildMessList(messStr, word, newWord):
 def parse(absPathToDir, word, newWord, code):
     import os
     res = []
-    for pathToDir, subdirs, files in os.walk(absPathToDir):
+    for pathToDir, _, files in os.walk(absPathToDir):
         for fileName in files:
             absPathToFile = os.path.join(pathToDir, fileName)
             messList = _buildMessList(_getStrFrom(absPathToFile, code), word, newWord)
             if (len(messList) != 0):
                 res.append((absPathToFile, messList))
-        for subdir in subdirs:
-            res += parse(os.path.join(pathToDir, subdir), word, newWord, code)
     return res
 
 def toFile(path, data, code):
