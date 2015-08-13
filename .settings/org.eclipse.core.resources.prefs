@@ -1,6 +1,4 @@
 eclipse.preferences.version=1
-encoding//checker/check.py=utf-8
-encoding//checker/testCheck.py=utf-8
 encoding//parser/mess.py=utf-8
 encoding//parser/testParser.py=utf-8
 encoding//src/parser/collector.py=utf-8

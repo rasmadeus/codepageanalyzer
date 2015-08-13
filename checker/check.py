@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+
 def _decode(value):
     import chardet
     try:
@@ -26,12 +27,14 @@ def _buildEncodingErrors(path, encoding):
 def findEncodingErrors(absPathToDir, encoding):
     import os
     res = {}
-    for pathToDir, _, files in os.walk(absPathToDir):
+    for pathToDir, subdirs, files in os.walk(absPathToDir):
         for fileName in files:
             absPathToFile = os.path.join(pathToDir, fileName)
             errors = _buildEncodingErrors(absPathToFile, encoding)
             if (len(errors) != 0):
                 res[absPathToFile] = errors
+        for subdir in subdirs:
+            res.update(findEncodingErrors(os.path.join(pathToDir, subdir), encoding))
     return res
 
 def toFile(path, data, code):
